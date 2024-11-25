@@ -5,8 +5,8 @@ description: Troubleshoot issues spotted by the test command
 
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-
-Guidance on causes and potential troubleshooting for failed tests, per test basis.
+# Test Commands
+This page aims to give guidance on the causes, and potential for troubleshooting or improvement, of failed tests or low test scores from the [Charon Test commands](../../run/prepare/test-command.md).
 
 ## Peers
 
@@ -19,9 +19,9 @@ Guidance on causes and potential troubleshooting for failed tests, per test basi
 #### PingMeasure
 
 - Peer might be too far away (geographically) from you.
-- If the connection to the peer is indirect, the route is from your node, to the relay, to the peer. Meaning you are measuring the travel time to the relay + from the relay to the peer: your node -> relay -> peer. Meaning, even if your peer's node is right next to yours, if the connection is hoping through a relay far away, the result will be dissatisfying.
-- Your network latency might be high. Verify with the `charon test infra` tests.
-- If the connection to the peer is indirect, the relay might be overloaded (although, very unlikely scenario).
+- If the connection to the peer is indirect, the route is from your node, to the relay, to the peer. Meaning you are measuring the travel time from you to the relay, and from the relay to the peer: (your node -> relay -> peer). This means, even if your peer's node is right next to yours, if the connection is being transmitted through a relay far away, the latency between your nodes might be too high to be effective.
+- Your general network latency to the public internet might be high. Verify with the [`charon test infra`](../../run/prepare/test-command.md#test-machine-and-network-performance) tests.
+- If the connection to the peer is indirect, there is a potential that the relay might be overloaded or under-resourced, consider adding [alternative relays](../../adv/security/risks.md#risk-obol-hosting-the-relay-infrastructure), or preferably [opening charon's p2p port](../../learn/charon/networking.mdx#libp2p-relays-and-peer-discovery) to the internet to establish direct peer to peer connections.
 
 #### PingLoad
 
@@ -31,12 +31,13 @@ Same causes as PingMeasure test apply here.
 
 - Your or your peer's port might not be publicly exposed.
 - Your or your peer's port might be behind a firewall.
+- Your or your peer's port might be behind a strict NAT gateway.
 
 ### Charon Relays
 
 #### PingRelay
 
-- Relay might be down or unaccessible because of other reasons.
+- Relay might be down or un-conctactable for other reasons.
 
 #### PingMeasureRelay
 
@@ -85,7 +86,7 @@ This is a load test, to enable it add the `--load-test` flag.
 
 Same causes as PingMeasure test apply here and additionally:
 
-- The infrastructure on which the beacon node run (amount of RAM, disk IOPS) might be not enough to hold the number of validators supplied.
+- The infrastructure on which the beacon node runs (amount of RAM, disk IOPS) might not be enough to handle the number of simulated validators supplied in this test.
 
 ## Validator
 
@@ -95,7 +96,7 @@ Same causes as PingMeasure test apply here and additionally:
 
 #### PingMeasure
 
-- Validator client might be too far away (geographically) from you. It is expected to run the validator client on the same machine.
+- Validator client might be too far away (geographically) from the charon client. Generally a low latency between a validator client and its charon client is important for timely signing. 
 
 #### PingLoad
 
@@ -120,7 +121,7 @@ Same causes as PingMeasure test apply here and additionally:
 
 #### CreateMultipleBlocks
 
-Same causes as CreateBlock test apply here and additionally:
+Same causes as CreateBlock test apply here.
 
 ## Infra
 
@@ -142,11 +143,11 @@ Same causes as CreateBlock test apply here and additionally:
 
 #### AvailableMemory
 
-- Your available memory (RAM) is not enough. Minimum available memory should be 2GB, recommended available memory is 4GB. Note that this test is best possible estimation, as memory availability is hard to be predicted, especially if the command is ran in a virtualised environment (i.e.: Docker container).
+- Your available memory (RAM) is not enough to run Charon. The minimum available memory should be 2GB, the recommended available memory is 4GB. Note that this test is a best estimate, as memory availability can be hard to predict, particularly if the command is run in a virtualised environment (i.e.: a Docker container).
 
 #### TotalMemory
 
-- Your total memory (RAM) is not enough. Minimum total memory should be 4GB, recommended total memory is 8GB.
+- Your total memory (RAM) may not be enough to run a full validating node. The recommended minimum total memory is 16GB. Specialised, or optimised deployments can use less RAM than the recommended minimum, but may require some monitoring to assert sufficient stability and performance. Read more in our [Deployment Best Practices](../../run/prepare/deployment-best-practices#hardware-specifications)
 
 #### InternetLatency
 
@@ -154,8 +155,8 @@ Same causes as CreateBlock test apply here and additionally:
 
 #### InternetDownloadSpeed
 
-- Your internet download speed from the nearest server is too low. Download speed is expected to be at least above 15MBps and at best above 50MBps.
+- Your internet download speed from the nearest test server is too low. Download speed is expected to be at least above 10Mb/s and at best above 50Mb/s.
 
 #### InternetUploadSpeed
 
-- Your internet upload speed to the nearest server is too low.Upload speed is expected to be at least above 15MBps and at best above 50MBps.
+- Your internet upload speed to the nearest test server is too low. Upload speed is expected to be at least above 10Mb/s and at best above 50Mb/s.

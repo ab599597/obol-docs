@@ -12,7 +12,7 @@ Charon test commands are designed to help you evaluate the performance and readi
 
 ## Test all
 
-Intended for running test across all categories. Each flag should be have a suffix of its category (i.e.: the flag `--endpoints` from the beacon tests becomes `--beacon-endpoints`). For details about each category refer to its respective section.
+Intended for running tests across all categories. Each flag should have a prefix for its category (i.e.: the flag `--endpoints` from the beacon tests becomes `--beacon-endpoints`). For details about each category refer to their respective sections.
 
 ### Pre-requisites
 
@@ -113,7 +113,7 @@ docker run -v "$(pwd)/.charon:/opt/charon/.charon" obolnetwork/charon:v1.1.2 tes
 
 ## Test beacon node
 
-Run tests towards beacon node(s), to evaluate its effectiveness for a Distributed Validator cluster. The beacon node is usually the instance getting the most load, especially with high number of validators serviced by the validator client and Charon. If the beacon node is self-hosted (which is highly recommended), the flag `--load-test` can be added. Note that the load tests include also simulations for various number of validators, which takes time (usually ~33 minutes). It is normal to observe some warnings during the simulations.
+Run tests on beacon node(s), to evaluate their effectiveness for a Distributed Validator cluster. The beacon node is usually the client doing the most work in a validating stack, especially with a high number of validators being serviced by the validator client(s) and Charon(s) that depend on it. If the beacon node you are testing is self-hosted (which is highly recommended for production), the flag `--load-test` can be added. These tests include simulated workloads for an increasing number of validators, and the process takes some time (approximately ~33 minutes). It is normal to observe some warnings during the simulations.
 
 At least 1 endpoint is required to be supplied to the `--endpoints` flag.
 
@@ -217,7 +217,10 @@ docker run -it obolnetwork/charon:v1.1.2 test mev \
 
 ## Test machine and network performance
 
-Run tests towards your machine and network, to evaluate their effectiveness for a Distributed Validator cluster. While Charon does not require highly performant hardware, the network connectivity of the machine it is running on should be good. In comparison, the beacon node requires not only good connectivity, but also performant storage with high input-output operations per second, enough memory and also good network connectivity. This test aims to address all those requirements and give a good overview of the system.
+Run tests of your machine and network, to evaluate their effectiveness for a Distributed Validator cluster. Distributed Validators need stable, low-latency, internet, a reasonable amount of RAM, and a highly performant disk drive for storage. This test aims to analyse these requirements to give an overview of the systems suitability.
+
+
+
 
 ### Pre-requisites
 
